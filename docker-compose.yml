@@ -1,6 +1,8 @@
 # docker-compose up -d
 # docker-compose exec dev bash
 # mix phx.new new_project
+# in new_project/config/dev.exs replace hostname: "localhost" to hostname: "db",
+# cd new_project && mix ecto.create && mix phx.server
 version: '3'
 services:
   dev:
