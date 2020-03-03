@@ -15,6 +15,7 @@ USER pho
 
 # install the Phoenix Mix archive
 RUN mix local.hex --force && \
+    mix local.rebar --force && \
     mix archive.install hex phx_new --force
 
 ENV HOME /home/pho
