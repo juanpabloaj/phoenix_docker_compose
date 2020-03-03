@@ -4,11 +4,12 @@ services:
     build:
         context: .
         dockerfile: Dockerfile
-    privileged: true
     volumes:
         - .:/code
     ports:
         - 4000:4000
+    stdin_open: true
+    tty: true
 
   db:
     image: postgres
