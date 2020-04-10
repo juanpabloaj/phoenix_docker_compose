@@ -1,16 +1,20 @@
-FROM elixir:slim
+FROM elixir:1.10.1
 
-# install Node.js (>= 8.0.0) and NPM in order to satisfy brunch.io dependencies
-# See https://hexdocs.pm/phoenix/installation.html#node-js-5-0-0
-RUN apt-get update -y && \
-    apt-get install -y curl git && \
-    curl -sL https://deb.nodesource.com/setup_13.x | bash - && \
-    apt-get install -y inotify-tools nodejs
+RUN apt-get update && \
+  apt-get install -y gnupg2 lsb-release && \
+  wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
+  echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" |tee  /etc/apt/sources.list.d/pgdg.list && \
+  apt-get update
 
-WORKDIR /code
+RUN curl -sL https://deb.nodesource.com/setup_13.x | bash - && apt-get install -y inotify-tools nodejs postgis
+
+WORKDIR /code/
 
 RUN useradd -c 'phoenix user' -m -d /home/pho -s /bin/bash pho && \
-    chown -R pho.pho /code
+    chown -R pho.pho /code && \
+    chown -R pho.pho /usr/share/postgresql && \
+    chown -R pho.pho /etc/alternatives/post*
+
 USER pho
 
 # install the Phoenix Mix archive
