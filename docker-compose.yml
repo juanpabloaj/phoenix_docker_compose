@@ -18,11 +18,34 @@ services:
     depends_on:
       - db
 
+  dev_with_postgis:
+    build:
+        context: .
+        dockerfile: dev_with_postgis/Dockerfile
+    volumes:
+        - .:/code
+    ports:
+        - 4000:4000
+    stdin_open: true
+    tty: true
+    depends_on:
+      - db_postgis
+
   db:
     image: postgres
     restart: always
     environment:
       POSTGRES_PASSWORD: postgres
+    #ports:
+      #- "5432:5432"
+
+  db_postgis:
+    image: postgis/postgis:12-3.0
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+    #ports:
+      #- 5432:5432
 
 volumes:
     phoenix_code:
