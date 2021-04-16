@@ -11,7 +11,7 @@ services:
     stdin_open: true
     tty: true
     depends_on:
-      - db_postgis
+      - db
 
   db:
     image: postgres
